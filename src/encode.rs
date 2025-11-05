@@ -479,7 +479,9 @@ impl Settings {
         // Try to use the libx264 decoder. If it is not available, then use use whatever default
         // h264 decoder we have.
         Some(
-            ffmpeg::encoder::find_by_name("libx264")
+            ffmpeg::encoder::find_by_name("h264_videotoolbox")
+                .or_else(|| ffmpeg::encoder::find_by_name("libx264"))
+                // .or_else()
                 .unwrap_or(ffmpeg::encoder::find(AvCodecId::H264)?),
         )
     }
